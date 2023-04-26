@@ -51,7 +51,7 @@
 		{/each}
 	</select><br />
 	{#if selected_car_id !== -1}
-		Go to <a href="/overview">details</a> for car {selected_car_id}.
+		Go to <a href="/cars/{selected_car_id}">details</a> for car {selected_car_id}.
 	{/if}
 </body>
 
