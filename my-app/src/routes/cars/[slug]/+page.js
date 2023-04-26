@@ -7,6 +7,14 @@ export const load = ({ fetch, params }) => {
         return data_for_slug
     }
 
+    const fetchCarIds = async () => {
+        const res = await fetch("/data/GPSTrackingData.json")
+        const data = await res.json()
+        data.forEach((d, i) => { d.id = i })
+        const unique_car_ids = [...new Set(data.map((v) => v.car_id))];
+        return unique_car_ids
+    }
+
     const fetchPointsOfInterest = async () => {
         const res = await fetch("/data/PointsOfInterestData.json")
         const data = await res.json()
@@ -25,17 +33,8 @@ export const load = ({ fetch, params }) => {
     return {
         GPSTracking: fetchGPSTracking(),
         pointsOfInterest: fetchPointsOfInterest(),
-        carStops: fetchCarStops()
+        carStops: fetchCarStops(),
+        carIds: fetchCarIds()
     }
-}
-
-
-
-
-
-const fetchCarStops = async () => {
-    const res = await fetch("/data/CarStopsData.json")
-    const data = await res.json()
-    return data
 }
 
