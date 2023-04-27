@@ -1,6 +1,6 @@
 <script>
 	import { scaleLinear, scaleOrdinal } from 'd3-scale';
-	import { schemeDark2 } from 'd3-scale-chromatic';
+	import { schemeTableau10 } from 'd3-scale-chromatic';
 	import { createEventDispatcher } from 'svelte';
 	export let data;
 
@@ -22,7 +22,7 @@
 
 	// Color scale
 	const locationTypesUniques = [...new Set(data.pointsOfInterest.map((v) => v.type))];
-	const ordinalScale = scaleOrdinal(schemeDark2).domain(locationTypesUniques);
+	const ordinalScale = scaleOrdinal(schemeTableau10).domain(locationTypesUniques);
 
 	// Drop down selection
 	const unique_car_ids = [...new Set(data.GPSTracking.map((v) => v.car_id))];

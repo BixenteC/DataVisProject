@@ -3,7 +3,7 @@ export const load = ({ fetch, params }) => {
         const res = await fetch("/data/GPSTrackingData.json")
         const data = await res.json()
         data.forEach((d, i) => { d.id = i })
-        let data_for_slug = data.filter((d) => { return d.car_id == params.slug })[0]
+        let data_for_slug = data.filter((d) => { return d.car_id == params.slug })
         return data_for_slug
     }
 
@@ -26,7 +26,7 @@ export const load = ({ fetch, params }) => {
         const res = await fetch("/data/CarStopsData.json")
         const data = await res.json()
         data.forEach((d, i) => { d.id = i })
-        let data_for_slug = data.filter((d) => { return d.car == params.slug })[0]
+        let data_for_slug = data.filter((d) => { return d.car == params.slug })
         return data_for_slug
     }
 
