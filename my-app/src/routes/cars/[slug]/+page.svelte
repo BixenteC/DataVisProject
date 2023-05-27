@@ -4,7 +4,6 @@
 	import { select } from 'd3-selection';
 	import { schemeTableau10 } from 'd3-scale-chromatic';
 	import * as _ from 'underscore';
-	import { start_hydrating } from 'svelte/internal';
 	export let data;
 
 	// Routing
@@ -55,7 +54,6 @@
 		.range([0 + 8, 16 + 8]);
 	const xAxis = (node) => axisBottom(xScale).tickSize(-300)(select(node));
 	const yAxis = (node) => axisLeft(yScale).tickSize(0)(select(node));
-	console.log(data.carStops[5]);
 </script>
 
 <a href="/">Car overview</a><br />

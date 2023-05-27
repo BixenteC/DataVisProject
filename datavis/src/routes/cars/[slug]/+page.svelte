@@ -4,7 +4,9 @@
 	import { select } from 'd3-selection';
 	import { schemeTableau10 } from 'd3-scale-chromatic';
 	import * as _ from 'underscore';
+	import 'bootstrap/dist/css/bootstrap.min.css';
 	export let data;
+	import * as d3 from 'd3';
 
 	// Routing
 	const all_car_ids = data.carIds;
@@ -48,35 +50,72 @@
 	const ordinalScale = scaleOrdinal(schemeTableau10).domain(locationTypesUniques);
 
 	// Axes
+	const step = 6;
+	const minValue = 0;
+	const maxValue = 24;
 	const xScale = scaleLinear().domain([0, 24]).range([0, 300]);
 	const yScale = scaleLinear()
 		.domain(_.range(6, 19 + 1))
 		.range([0 + 8, 16 + 8]);
-	const xAxis = (node) => axisBottom(xScale).tickSize(-300)(select(node));
+	const xAxis = (node) =>
+		axisBottom(xScale)
+			.tickSize(-300)
+			.ticks((maxValue - minValue) / step + 1)
+			.tickValues(d3.range(minValue, maxValue + step, step))(select(node));
 	const yAxis = (node) => axisLeft(yScale).tickSize(0)(select(node));
 </script>
 
-<nav class="navbar navbar-expand-md navbar-ligt bg-light">
-	<ul class="navbar-nav">
-		<li class="nav-item active">
-			<a class="nav-link" href="/">Car overview</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand" href="/">Bixente Cornelis - KU Leuven - r0716823</a>
+	<button
+		class="navbar-toggler"
+		type="button"
+		data-toggle="collapse"
+		data-target="#navbarSupportedContent"
+		aria-controls="navbarSupportedContent"
+		aria-expanded="false"
+		aria-label="Toggle navigation"
+	>
+		<span class="navbar-toggler-icon" />
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item active">
+				<a class="nav-link" href="/">Car overview <span class="sr-only" /></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link disabled" href="/cars/{selected_car_id}">Car details</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+<h2>Details for car {selected_car_id}</h2>
+<nav aria-label="...">
+	<ul class="pagination pagination-sm">
+		<li class={prev_car_id == -1 ? 'page-item disabled' : 'page-item'}>
+			<a class="page-link" href="/cars/{prev_car_id}" tabindex="-1">Previous</a>
 		</li>
-		<li class="nav-item">
-			<a class={prev_car_id != -1 ? 'nav-link' : 'nav-link-disabled'} href="/cars/{prev_car_id}"
-				>Previous car</a
+		{#if prev_car_id !== -1}
+			<li class="page-item">
+				<a class="page-link" href="/cars/{prev_car_id}">{prev_car_id}</a>
+			</li>
+		{/if}
+		<li class="page-item active">
+			<a class="page-link" href="/cars/{selected_car_id}"
+				>{selected_car_id} <span class="sr-only" /></a
 			>
 		</li>
-		<li class="nav-item">
-			<a class={next_car_id != -1 ? 'nav-link' : 'nav-link-disabled'} href="/cars/{next_car_id}"
-				>Next car</a
-			>
+		{#if next_car_id !== -1}
+			<li class="page-item">
+				<a class="page-link" href="/cars/{next_car_id}">{next_car_id}</a>
+			</li>
+		{/if}
+		<li class={next_car_id == -1 ? 'page-item disabled' : 'page-item'}>
+			<a class="page-link" href="/cars/{next_car_id}" tabindex="-1">Next</a>
 		</li>
 	</ul>
 </nav>
-
-<h1>Bixente Cornelis - KU Leuven - r0716823</h1>
-<h2>Details for car {selected_car_id}</h2>
-
 <input type="range" min="0" max="20160" bind:value={slider_value} class="slider" /><br />
 
 <!-- Left figure - GPS Tracking Data -->
@@ -117,7 +156,7 @@
 	<!-- Axis -->
 	<g transform="translate({margins.left}, {margins.top})">
 		<g use:xAxis transform="translate(0, {16 * 14 - 1})" id="xAxis" />
-		<g use:yAxis fill="red" />
+		<g use:yAxis />
 	</g>
 </svg>
 

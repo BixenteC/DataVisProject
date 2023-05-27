@@ -2,6 +2,7 @@
 	import { scaleLinear, scaleOrdinal } from 'd3-scale';
 	import { schemeTableau10 } from 'd3-scale-chromatic';
 	import { createEventDispatcher } from 'svelte';
+	import 'bootstrap/dist/css/bootstrap.min.css';
 	export let data;
 
 	const dispatch = createEventDispatcher();
@@ -40,7 +41,35 @@
 </head>
 
 <body>
-	<h1>Bixente Cornelis - KU Leuven - r0716823</h1>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="/">Bixente Cornelis - KU Leuven - r0716823</a>
+		<button
+			class="navbar-toggler"
+			type="button"
+			data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent"
+			aria-expanded="false"
+			aria-label="Toggle navigation"
+		>
+			<span class="navbar-toggler-icon" />
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link disabled" href="/">Car overview <span class="sr-only" /></a>
+				</li>
+				<li class="nav-item">
+					{#if selected_car_id !== -1}
+						<a class="nav-link" href="/cars/{selected_car_id}">Car details</a>
+					{:else}
+						<a class="nav-link" href="/cars/1">Car details</a>
+					{/if}
+				</li>
+			</ul>
+		</div>
+	</nav>
 	<h2>Overview</h2>
 
 	<label for="dropDownCar">Select car to highlight:</label>
